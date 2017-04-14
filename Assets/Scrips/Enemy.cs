@@ -91,7 +91,7 @@ public class Enemy : MonoBehaviour {
             GameObject b = Instantiate<GameObject>(bullet);
 
             //El Col·loquem on toca
-            if(right)
+            if(!this.GetComponent<SpriteRenderer>().flipX)
             {
                 b.transform.position = new Vector3(this.transform.GetChild(0).position.x + 1.2f, this.transform.GetChild(0).position.y,
                 this.transform.GetChild(0).position.z);
@@ -113,7 +113,10 @@ public class Enemy : MonoBehaviour {
             //Li donem un valor al temps.
             p.time = 0;
 
-            p.dreta = right;
+            p.dreta = !this.GetComponent<SpriteRenderer>().flipX;
+
+            //Distigim els projectils si son de l'enemic o del pj
+            p.enemyBullet = true;
 
             //L'afegim a la llista de municio.
             gm.GetComponent<GameManager>().bulletsList.Add(p);
@@ -129,6 +132,28 @@ public class Enemy : MonoBehaviour {
             shoot = false;
         }
 	}
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        //Si col·lisiona amb una bala
+        if(col.gameObject.tag=="Bullet")
+        {
+            //Mirem quin es
+            GameManager g = gm.GetComponent<GameManager>();
+            foreach (Bullet b in g.bulletsList)
+            {
+                //Trobem la bala col·lisionada i comprovem que sigui del PJ
+                if (!b.enemyBullet && b.obj.transform.position == col.gameObject.transform.position)
+                {
+                    //Matem la bala
+                    b.time = b.maxTime;
+
+                    //Matem el personatge
+                    Destroy(this.gameObject);
+                }
+            }
+        }
+    }
 
     void OnTriggerEnter2D(Collider2D col)
     {

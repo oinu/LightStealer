@@ -7,6 +7,7 @@ class Bullet
     public float time;
     public float maxTime = 5.0f;
     public bool dreta;
+    public bool enemyBullet;
     public void Time(float i)
     {
         time += i;

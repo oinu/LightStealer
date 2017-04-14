@@ -3,13 +3,14 @@ using System.Collections;
 
 public class PJ : MonoBehaviour {
 
-    bool attack, walk, firstJump,jump;
+    bool attack, walk, firstJump,jump,shoot;
     int life,energy;
     AnimatorStateInfo state;
     BoxCollider2D col;
     SpriteRenderer render;
     Rigidbody2D rigidBody;
     public GameObject gm;
+    public GameObject bullet;
 
 
     // Use this for initialization
@@ -22,6 +23,7 @@ public class PJ : MonoBehaviour {
         rigidBody = this.GetComponent<Rigidbody2D>();
         life = 100;
         energy = 0;
+        shoot = true;
     }
 	
 	// Update is called once per frame
@@ -31,6 +33,10 @@ public class PJ : MonoBehaviour {
         if (Input.GetAxis("Fire1") > 0)
         {
             attack = true;
+        }
+        else if (Input.GetAxis("Fire2")>0)
+        {
+            this.GetComponent<Animator>().SetBool("SuperAttack", true);
         }
         else if (Input.GetAxis("Horizontal") > 0)
         {
@@ -48,6 +54,7 @@ public class PJ : MonoBehaviour {
         {
             attack = false;
             walk = false;
+            this.GetComponent<Animator>().SetBool("SuperAttack", false);
         }
 
         if(Input.GetAxis("Jump")!=0)
@@ -91,8 +98,38 @@ public class PJ : MonoBehaviour {
             col.size = new Vector2(4, col.size.y);
         }
 
+        else if(state.IsName("SuperAttack") && !shoot)
+        {
+            shoot = true;
+            energy -= 10;
+            GameObject b = Instantiate<GameObject>(bullet);
+
+            if (!render.flipX)
+            {
+                b.transform.position = new Vector3(this.transform.position.x + 1.2f, this.transform.position.y,
+                this.transform.position.z);
+            }
+
+            else
+            {
+                b.transform.position = new Vector3(this.transform.position.x - 0.2f, this.transform.position.y,
+                this.transform.position.z);
+            }
+
+            Bullet p = new Bullet();
+            p.obj = b;
+            p.time = 0;
+            p.dreta = !render.flipX;
+            p.enemyBullet = false;
+            gm.GetComponent<GameManager>().bulletsList.Add(p);
+
+            this.GetComponent<Animator>().SetBool("SuperAttack", false);
+
+        }
+
         else if (state.IsName("Idle"))
         {
+            if(energy>=10)shoot = false;
             if (attack)
             {
                 this.GetComponent<Animator>().SetBool("Attack", true);
@@ -136,7 +173,7 @@ public class PJ : MonoBehaviour {
             GameManager g=gm.GetComponent<GameManager>();
             foreach(Bullet b in g.bulletsList)
             {
-                if(b.obj.transform.position==col.gameObject.transform.position)
+                if(b.enemyBullet && b.obj.transform.position==col.gameObject.transform.position)
                 {
                     b.time = b.maxTime;
                 }
