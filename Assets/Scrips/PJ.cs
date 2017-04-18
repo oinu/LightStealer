@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PJ : MonoBehaviour {
 
-    bool attack, walk, firstJump,jump,shoot;
+    public bool attack, walk, firstJump,jump,shoot;
     int life,energy;
     AnimatorStateInfo state;
     BoxCollider2D col;
@@ -184,5 +184,18 @@ public class PJ : MonoBehaviour {
         {
             firstJump = true;
         }
+    }
+
+    void OnGUI()
+    {
+        GUIStyle style = new GUIStyle();
+        style.fontSize = 25;
+        style.normal.textColor = Color.white;
+
+        Rect lifeRect = new Rect(0, 0, 150, 50);
+        Rect energyRect = new Rect(Screen.width-150, 0, 150, 50);
+
+        GUI.Label(lifeRect, "Life:  "+this.life.ToString(),style);
+        GUI.Label(energyRect, "Energy:  " + this.energy.ToString(), style);
     }
 }

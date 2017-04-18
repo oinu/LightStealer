@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour {
     int[] rm;
     int length;
     public ArrayList bulletsList;
+    public GameObject pj;
+    public Camera c;
     // Use this for initialization
     void Start () {
         bulletsList = new ArrayList();
@@ -40,6 +42,8 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        CameraUpdate();
         //Llista per borrar aquelles bales que ja an passat el seu temps de vida.
         rm = new int[bulletsList.Count];
         length = 0;
@@ -80,5 +84,25 @@ public class GameManager : MonoBehaviour {
 
         // "Borrem" la llista de borrats.
         rm = null;
+    }
+
+    void CameraUpdate()
+    {
+        if (pj.transform.position.y < -1.549046f)
+        {
+            c.transform.position = new Vector3(c.transform.position.x, -1.549046f, c.transform.position.z);
+        }
+        else
+        {
+            c.transform.position = new Vector3(c.transform.position.x, pj.transform.position.y, c.transform.position.z);
+        }
+        /*else if(pj.transform.position.y>=c.transform.position.y || !pj.GetComponent<PJ>().firstJump)
+        {
+            c.transform.position = new Vector3(c.transform.position.x,pj.transform.position.y, c.transform.position.z);
+        }*/
+        /*else if(!pj.GetComponent<PJ>().firstJump)
+        {
+            c.transform.position = new Vector3(c.transform.position.x, pj.transform.position.y, c.transform.position.z);
+        }*/
     }
 }
