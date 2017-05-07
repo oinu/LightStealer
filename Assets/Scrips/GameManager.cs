@@ -35,9 +35,11 @@ public class GameManager : MonoBehaviour {
     public ArrayList bulletsList;
     public GameObject pj;
     public Camera c;
+
     // Use this for initialization
     void Start () {
         bulletsList = new ArrayList();
+        
     }
 	
 	// Update is called once per frame
@@ -88,21 +90,13 @@ public class GameManager : MonoBehaviour {
 
     void CameraUpdate()
     {
-        if (pj.transform.position.y < -1.549046f)
+        if (pj.transform.position.y < 0.0f)
         {
-            c.transform.position = new Vector3(c.transform.position.x, -1.549046f, c.transform.position.z);
+            c.transform.position = new Vector3(pj.transform.position.x + 3.0f, 0.0f, c.transform.position.z);
         }
         else
         {
-            c.transform.position = new Vector3(c.transform.position.x, pj.transform.position.y, c.transform.position.z);
+            c.transform.position = new Vector3(pj.transform.position.x + 3.0f, pj.transform.position.y, c.transform.position.z);
         }
-        /*else if(pj.transform.position.y>=c.transform.position.y || !pj.GetComponent<PJ>().firstJump)
-        {
-            c.transform.position = new Vector3(c.transform.position.x,pj.transform.position.y, c.transform.position.z);
-        }*/
-        /*else if(!pj.GetComponent<PJ>().firstJump)
-        {
-            c.transform.position = new Vector3(c.transform.position.x, pj.transform.position.y, c.transform.position.z);
-        }*/
     }
 }
