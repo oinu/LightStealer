@@ -90,13 +90,13 @@ public class GameManager : MonoBehaviour {
 
     void CameraUpdate()
     {
-        if (pj.transform.position.y < 0.0f)
+        if (pj.transform.position.y < 1.0f)
         {
             c.transform.position = new Vector3(pj.transform.position.x + 3.0f, 0.0f, c.transform.position.z);
         }
         else
         {
-            c.transform.position = new Vector3(pj.transform.position.x + 3.0f, pj.transform.position.y, c.transform.position.z);
+            c.transform.position = new Vector3(pj.transform.position.x + 3.0f, pj.transform.position.y+2.0f, c.transform.position.z);
         }
     }
 }

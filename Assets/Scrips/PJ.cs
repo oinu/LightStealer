@@ -37,7 +37,6 @@ public class PJ : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        Debug.Log(balance);
         //Si cau el buit o es queda sensa vides
         if (life == 0)
         {
@@ -246,30 +245,14 @@ public class PJ : MonoBehaviour {
 
             if(balance)
             {
-                Vector3 v = puntsLiana[3].transform.position- this.transform.position;
-
-                if (v.x > 0) v.x = -0.05f;
-                else if (v.x < 0) v.x = 0.05f;
-
-                if (v.y > 0) v.y = -0.05f;
-                else if (v.y < 0) v.y = 0.05f;
-
-                this.transform.position += v;
-                if (!render.flipX && this.transform.position == puntsLiana[1].transform.position)
+                if (!render.flipX)
                 {
-                    puntsLiana[3].transform.position = puntsLiana[2].transform.position;
-                    puntsPassatsLiana++;
+                    transform.position = new Vector3(transform.position.x + 0.5f, transform.position.y, transform.position.z);
                 }
-                else if (render.flipX && this.transform.position == puntsLiana[1].transform.position)
+                else if (render.flipX)
                 {
-                    puntsLiana[3].transform.position = puntsLiana[0].transform.position;
-                    puntsPassatsLiana++;
+                    transform.position = new Vector3(transform.position.x - 0.5f, transform.position.y, transform.position.z);
                 }
-
-                /*balance = !(puntsPassatsLiana >= 2 && (puntsLiana[3].transform.position == puntsLiana[0].transform.position
-                    || puntsLiana[3].transform.position == puntsLiana[2].transform.position));*/
-
-                Debug.Log(puntsPassatsLiana);
             }
         }
     }
@@ -383,7 +366,7 @@ public class PJ : MonoBehaviour {
         int h = Screen.height / 12;
         Rect lifeRect = new Rect(0, h, w, h);
         Rect energyRect = new Rect(Screen.width-150, 0, 150, 50);
-        Rect heartRect = new Rect(0, 0, w, h);
+        Rect heartRect = new Rect(0, 0, w/3, h);
 
         //Per cada nombre de intents que em queden, afegim un pj.
         for (int i = 0; i < tries; i++)
