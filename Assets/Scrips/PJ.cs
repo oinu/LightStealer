@@ -37,6 +37,10 @@ public class PJ : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        if(tries==0)
+        {
+            Application.Quit();
+        }
         //Si cau el buit o es queda sensa vides
         if (life == 0)
         {
@@ -341,6 +345,11 @@ public class PJ : MonoBehaviour {
             puntsLiana[0].transform.position = col.transform.GetChild(0).position;
             puntsLiana[1].transform.position = col.transform.GetChild(1).position;
             puntsLiana[2].transform.position = col.transform.GetChild(2).position;
+        }
+        else if(col.tag=="Portal")
+        {
+            Debug.Log("Exit");
+            Application.Quit();
         }
     }
 

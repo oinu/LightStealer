@@ -86,6 +86,11 @@ public class GameManager : MonoBehaviour {
 
         // "Borrem" la llista de borrats.
         rm = null;
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     void CameraUpdate()
